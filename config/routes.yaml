@@ -1,11 +1,11 @@
-Login:
+login:
    path: /login
    controller: App\Controller\LoginController::login
 
-Registration:
+register:
    path: /register
    controller: App\Controller\RegistrationController::register
 
-Text:
+text:
    path: /text
    controller: App\Controller\RegistrationController::register

@@ -2,15 +2,12 @@
 namespace App\Controller;
 
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-class RegistrationController
+class RegistrationController extends Controller
 {
     public function register()
     {
-        $number = mt_rand(0, 100);
-
-        return new Response(
-            '<html><body>Register</body></html>'
-        );
+        return $this->render('user/register.html.twig');
     }
 }
