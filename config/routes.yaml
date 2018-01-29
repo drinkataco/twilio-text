@@ -8,4 +8,4 @@ register:
 
 text:
    path: /text
-   controller: App\Controller\RegistrationController::register
+   controller: App\Controller\TextController::text

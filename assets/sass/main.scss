@@ -1,0 +1,16 @@
+body {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  background-color: #f5f5f5;
+}
+
+.container {
+  &--small {
+    max-width: 600px;
+    width: 100%;
+  }
+}

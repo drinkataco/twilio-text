@@ -1,0 +1,15 @@
+{% extends 'boilerplate.html.twig' %}
+
+{% block content %}
+  <div class="container--small">
+    <form class="text-form" action="{{ url('text') }}">
+      <h1 class="h3 mb-3 font-weight-normal">Send a Text</h1>
+      <textarea class="form-control text-form__message mb-2"></textarea>
+      <a href="#" class="float-left">Logout</a>
+      <button class="btn btn-primary float-right" type="submit">Send</button>
+    </form>
+  </div>
+{% endblock %}
+
+{% block page_title %}Send a Text{% endblock %}
+{% block body_class %}text-center text-page{% endblock %}
