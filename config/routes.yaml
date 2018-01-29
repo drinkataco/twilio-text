@@ -1,6 +1,7 @@
 login:
-   path: /login
+   path:       /login
    controller: App\Controller\LoginController::login
+   methods:    [GET, POST]
 
 register:
    path: /register
