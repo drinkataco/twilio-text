@@ -10,3 +10,10 @@ register:
 text:
    path: /text
    controller: App\Controller\TextController::text
+
+homepage:
+    path: /
+    controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController::urlRedirectAction
+    defaults:
+        path: /text
+        permanent: true
