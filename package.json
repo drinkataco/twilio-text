@@ -13,6 +13,8 @@
     "sass-loader": "^6.0.6"
   },
   "scripts": {
-    "encore": "node_modules/.bin/encore"
+    "encore": "node_modules/.bin/encore",
+    "build-dev": "node_modules/.bin/encore dev",
+    "build-prod": "node_modules/.bin/encore"
   }
 }
