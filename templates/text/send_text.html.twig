@@ -5,7 +5,7 @@
     <form class="text-form" action="{{ url('text') }}">
       <h1 class="h3 mb-3 font-weight-normal">Send a Text</h1>
       <textarea class="form-control text-form__message mb-2"></textarea>
-      <a href="#" class="float-left">Logout</a>
+      <a href="{{ url('logout') }}" class="float-left">Logout</a>
       <button class="btn btn-primary float-right" type="submit">Send</button>
     </form>
   </div>

@@ -1,14 +1,18 @@
 {% extends 'boilerplate.html.twig' %}
 
 {% block content %}
-  <form class="signin" action="{{ url('login') }}" method="POST">
+  <form class="signin" action="{{ path('login') }}" method="POST">
     <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
 
+    {% if error %}
+        <p class="text-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</p>
+    {% endif %}
+
     <label for="inputEmail" class="sr-only">Email address</label>
-    <input type="email" id="inputEmail" class="form-control signin__email mb-2" placeholder="Email address" required autofocus>
+    <input name="_username" type="email" id="inputEmail" class="form-control signin__email mb-2" placeholder="Email address" required autofocus value="{{ last_username }}">
 
     <label for="inputPassword" class="sr-only">Password</label>
-    <input type="password" id="inputPassword" class="form-control mb-2 signin__password" placeholder="Password" required>
+    <input name="_password" type="password" id="inputPassword" class="form-control mb-2 signin__password" placeholder="Password" required>
 
     <div class="signin__checkbox mb-2 hidden">
       <label>
@@ -16,7 +20,10 @@
       </label>
     </div>
 
-    <button class="btn btn-primary btn-block" type="submit">Sign in</button>
+    <button class="btn btn-primary btn-block mb-2" type="submit">Sign in</button>
+
+    <input type="hidden" name="_target_path" value="{{ url('text') }}" />
+
     <a href="{{ url('register') }}" class="btn btn-outline-primary btn-block">Register</a>
   </form>
 {% endblock %}

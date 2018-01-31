@@ -1,11 +1,11 @@
 login:
    path:       /login
-   controller: App\Controller\LoginController::login
+   controller: App\Controller\SecurityController::login
    methods:    [GET, POST]
 
 register:
    path: /register
-   controller: App\Controller\RegistrationController::register
+   controller: App\Controller\RegistrationController::registerAction
 
 text:
    path: /text
@@ -17,3 +17,6 @@ homepage:
     defaults:
         path: /text
         permanent: true
+
+logout:
+    path: /logout
