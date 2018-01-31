@@ -1,5 +1,5 @@
 <?php
-namespace App\Controller;
+namespace App\Controller\User;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,7 +22,7 @@ class RegistrationController extends Controller
     public function registerAction(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
     {
         // Redirect user if already logged in
-        if (is_null($this->getUser())) {
+        if (!is_null($this->getUser())) {
             return $this->redirectToRoute('homepage');
         }
 

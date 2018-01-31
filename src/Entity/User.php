@@ -49,9 +49,6 @@ class User implements UserInterface
      */
     private $createdDate;
 
-    /**
-     * Default Values
-     */
     public function __construct()
     {
         $this->setCreatedDate(new \DateTime());

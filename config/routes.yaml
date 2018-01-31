@@ -1,15 +1,15 @@
 login:
    path:       /login
-   controller: App\Controller\SecurityController::login
+   controller: App\Controller\User\SecurityController::login
    methods:    [GET, POST]
 
 register:
    path: /register
-   controller: App\Controller\RegistrationController::registerAction
+   controller: App\Controller\User\RegistrationController::registerAction
 
 text:
    path: /text
-   controller: App\Controller\TextController::text
+   controller: App\Controller\Text\TextController::text
 
 homepage:
     path: /
