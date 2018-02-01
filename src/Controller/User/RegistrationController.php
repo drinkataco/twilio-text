@@ -47,6 +47,7 @@ class RegistrationController extends Controller
             return $this->redirectToRoute('text');
         }
 
+        // Otherwise just render page on GET
         return $this->render(
             'user/register.html.twig',
             array('form' => $form->createView())

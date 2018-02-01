@@ -21,9 +21,7 @@ class UserType extends AbstractType
     {
         $defaultAttributes = array(
             'label_attr' => array('class' => 'sr-only'),
-            'attr' => array('class' => 'form-control mb-2'),
-            'invalid_message_parameters' => array('class' => 'text-danger'),
-            'error_bubbling' => true
+            'attr' => array('class' => 'form-control mb-2')
         );
 
         $builder

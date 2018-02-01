@@ -21,6 +21,11 @@ class User implements UserInterface
     private $id;
 
     /**
+     * @ORM\Column(type="datetime")
+     */
+    private $createdDate;
+
+    /**
      * @ORM\Column(type="string", length=255, unique=true)
      * @Assert\NotBlank()
      * @Assert\Email()
@@ -45,92 +50,164 @@ class User implements UserInterface
     private $plainPassword;
 
     /**
-     * @ORM\Column(type="datetime")
+     * Set default values
      */
-    private $createdDate;
-
     public function __construct()
     {
         $this->setCreatedDate(new \DateTime());
     }
 
+    /**
+     * @return mixed
+     */
     public function getId()
     {
         return $this->id;
     }
 
+    /**
+     * @return mixed
+     */
     public function getCreatedDate()
     {
         return $this->createdDate;
     }
 
-    private function setCreatedDate($createdDate)
+    /**
+     * @param mixed $createdDate
+     *
+     * @return self
+     */
+    public function setCreatedDate($createdDate)
     {
-        if ($this->createdDate == null)
+        if ($this->createdDate === null)
         {
             $this->createdDate = $createdDate;
         }
+
+        return $this;
     }
 
+    /**
+     * @return mixed
+     */
     public function getEmail()
     {
         return $this->email;
     }
 
+    /**
+     * @param mixed $email
+     *
+     * @return self
+     */
     public function setEmail($email)
     {
         $this->email = $email;
+
+        return $this;
     }
 
+    /**
+     * @return mixed
+     */
     public function getName()
     {
         return $this->name;
     }
 
+    /**
+     * @param mixed $name
+     *
+     * @return self
+     */
     public function setName($name)
     {
         $this->name = $name;
+
+        return $this;
     }
 
-    public function getUsername()
-    {
-        return $this->getEmail();
-    }
-
-    public function setUsername($username)
-    {
-        $this->email = $username;
-    }
-
-    public function getRoles()
-    {
-        return array('ROLE_USER');
-    }
-
+    /**
+     * @return mixed
+     */
     public function getPassword()
     {
         return $this->password;
     }
 
+    /**
+     * @param mixed $password
+     *
+     * @return self
+     */
     public function setPassword($password)
     {
         $this->password = $password;
+
+        return $this;
     }
 
+    /**
+     * @return mixed
+     */
     public function getPlainPassword()
     {
         return $this->plainPassword;
     }
 
-    public function setPlainPassword($password)
+    /**
+     * @param mixed $plainPassword
+     *
+     * @return self
+     */
+    public function setPlainPassword($plainPassword)
     {
-        $this->plainPassword = $password;
+        $this->plainPassword = $plainPassword;
+
+        return $this;
     }
 
+    /**
+     * @return array
+     */
+    public function getRoles()
+    {
+        return array('ROLE_USER');
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUsername()
+    {
+        return $this->getEmail();
+    }
+
+    /**
+     * @param mixed $username
+     *
+     * @return self
+     */
+    public function setUsername($username)
+    {
+        $this->email = $username;
+
+        return $this;
+    }
+
+    /**
+     * No Salt Needed
+     *
+     * @return null
+     */
     public function getSalt()
     {
     }
 
+    /**
+     * Method to erase credentials
+     */
     public function eraseCredentials()
     {
     }

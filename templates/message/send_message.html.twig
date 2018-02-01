@@ -1,0 +1,21 @@
+{% extends 'boilerplate.html.twig' %}
+
+{% block content %}
+  <div class="container--small">
+    {{ form_start(form, { 'attr': {'class': 'text-form'} }) }}
+      <h1 class="h3 mb-3 font-weight-normal">Send a Text</h1>
+      {{ form_row(form.recipient,   { 'attr': { 'placeholder': 'Mobile Number' } }) }}
+      {{ form_row(form.messageBody, { 'attr': { 'placeholder': 'Message' } }) }}
+
+      <ul class="float-left list-inline text-form__options">
+        {% spaceless %}
+        <li class="list-inline-item"><a href="{{ url('logout') }}">Logout</a></li>
+        {% endspaceless %}
+      </ul>
+      <button class="btn btn-primary float-right" type="submit">Send</button>
+    {{ form_end(form) }}
+  </div>
+{% endblock %}
+
+{% block page_title %}Send a Text{% endblock %}
+{% block body_class %}text-center text-page{% endblock %}

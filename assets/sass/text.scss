@@ -1,7 +1,13 @@
 .text-form {
   width: 100%;
 
-  .text-form__message {
+  &__message {
     height: 100px
+  }
+
+  &__options {
+    li:not(:first-child):before {
+        content: " | ";
+    }
   }
 }
