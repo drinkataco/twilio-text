@@ -19,8 +19,10 @@ class RegistrationController extends Controller
     /**
      * Handles Registration
      */
-    public function registerAction(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
-    {
+    public function registerAction(
+        Request $request,
+        UserPasswordEncoderInterface $passwordEncoder
+    ): Response {
         // Redirect user if already logged in
         if (!is_null($this->getUser())) {
             return $this->redirectToRoute('homepage');
@@ -33,7 +35,6 @@ class RegistrationController extends Controller
         // Handle the form on POST
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-
             // Encode the password
             $password = $passwordEncoder->encodePassword($user, $user->getPlainPassword());
             $user->setPassword($password);

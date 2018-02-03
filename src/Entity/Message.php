@@ -152,7 +152,7 @@ class Message
      */
     public function getMessageBody()
     {
-        return $this->status;
+        return $this->messageBody;
     }
 
     /**

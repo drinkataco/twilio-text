@@ -15,6 +15,12 @@
       <button class="btn btn-primary float-right" type="submit">Send</button>
     {{ form_end(form) }}
   </div>
+
+  <div class="messages">
+    {% if queued_message is defined %}
+      <h2>ayay</h2>
+    {% endif %}
+  </div>
 {% endblock %}
 
 {% block page_title %}Send a Text{% endblock %}
