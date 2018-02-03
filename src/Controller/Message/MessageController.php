@@ -42,13 +42,10 @@ class MessageController extends Controller
                 $this->getUser()->getUsername()
             );
 
+            $this->addFlash('success', 'Text Message Queued!');
+
             // Render page with queued message
-            return $this->redirectToRoute(
-                'message',
-                array(
-                    'queued_message' => $messageService->getMessage($key)
-                )
-            );
+            return $this->redirectToRoute('message');
         }
 
         // Otherwise just render page on GET
