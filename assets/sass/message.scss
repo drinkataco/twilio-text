@@ -1,0 +1,13 @@
+.message-page {
+  width: 100%;
+  text-align: center;
+}
+
+.message-form {
+  max-width: 600px;
+  margin: 0 auto;
+
+  &__message {
+    height: 100px;
+  }
+}

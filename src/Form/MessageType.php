@@ -27,7 +27,7 @@ class MessageType extends AbstractType
             ->add('messageBody',
                   TextareaType::class,
                   array_merge($defaultAttributes,
-                    array('attr' => array('class' => 'form-control text-form__message mb-2'))
+                    array('attr' => array('class' => 'form-control message-form__message mb-2'))
                   )
               );
     }
