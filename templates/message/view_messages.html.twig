@@ -1,0 +1,59 @@
+{% extends 'boilerplate.html.twig' %}
+
+{% block content %}
+
+  <div class="container">
+    <div class="row">
+      <div class="col">
+
+        <div class="mb-4">
+          <ul class="float-right list-inline">
+            <li class="list-inline-item"><a href="{{ url('message') }}" class="btn btn-outline-secondary btn-sm float-right">Send a Message</a></li>
+            <li class="list-inline-item"><a href="{{ url('logout') }}" class="btn btn-sm float-right">Logout</a></li>
+          </ul>
+          <h1 class="h3 mb-3 font-weight-normal">Send a Text</h1>
+        </div>
+
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Id</th>
+              <th scope="col">Recepient</th>
+              <th scope="col">Message</th>
+              <th scope="col">Status</th>
+              <th scope="col">Sent Date</th>
+              <th scope="col">User</th>
+            </tr>
+          </thead>
+          <tbody>
+
+            {% for message in messages %}
+              <tr>
+                <th scope="row">{{ message.id }}</th>
+                <td>{{ message.recipient }}</td>
+                <td>{{ message.messageBody }}</td>
+                <td>
+                  {% if message.status =='pending' %}
+                    <span class="badge badge-pill badge-warning">{{ message.status }}</span>
+                  {% elseif message.status == 'sent' %}
+                    <span class="badge badge-pill badge-success">{{ message.status }}</span>
+                  {% elseif message.status == 'failed' %}
+                    <span class="badge badge-pill badge-danger">{{ message.status }}</span>
+                  {% endif %}
+                </td>
+                <td>{{ message.sentDate }}</td>
+                <td><span title="{{ message.user.email }}">{{ message.user.name }}</span></td>
+              </tr>
+            {% endfor %}
+
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+  </div>
+
+{% endblock %}
+
+{% block page_title %}View All Messages{% endblock %}
+{% block body_class %}messages-page{% endblock %}

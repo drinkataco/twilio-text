@@ -11,6 +11,10 @@ message:
    path: /message
    controller: App\Controller\Message\MessageController::message
 
+messages:
+   path: /messages
+   controller: App\Controller\Message\MessageController::messages
+
 homepage:
     path: /
     controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController::urlRedirectAction

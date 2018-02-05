@@ -59,4 +59,17 @@ class MessageController extends Controller
             array('form' => $form->createView())
         );
     }
+
+    /**
+     * View All Messages
+     */
+    public function messages(
+        Request $request,
+        MessageService $messageService
+    ): Response {
+        return $this->render(
+            'message/view_messages.html.twig',
+            array('messages' => $messageService->getMessages())
+        );
+    }
 }

@@ -9,7 +9,14 @@
       <div class="col">
         <div class="message-form mb-5">
           {{ form_start(form) }}
-            <h1 class="h3 mb-3 font-weight-normal">Send a Text</h1>
+
+            <div class="mb-4">
+              <ul class="float-right list-inline">
+                <li class="list-inline-item"><a href="{{ url('messages') }}" class="btn btn-outline-secondary btn-sm float-right">View All Messages</a></li>
+                <li class="list-inline-item"><a href="{{ url('logout') }}" class="btn btn-sm float-right">Logout</a></li>
+              </ul>
+              <h1 class="h3 mb-3 font-weight-normal">Send a Message</h1>
+            </div>
 
             {{ include('bits/alerts.html.twig', {'session_flashes': flashes }) }}
 
@@ -24,22 +31,12 @@
             {{ form_row(form.recipient,   { 'attr': { 'placeholder': 'Mobile Number', 'value': recipient_value } }) }}
             {{ form_row(form.messageBody, { 'attr': { 'placeholder': 'Message' }, 'value': message_value }) }}
 
-            <ul class="float-left list-inline text-form__options">
-              {% spaceless %}
-              <li class="list-inline-item"><a href="{{ url('logout') }}">Logout</a></li>
-              {% endspaceless %}
-            </ul>
             <button class="btn btn-primary float-right" type="submit">Send</button>
           {{ form_end(form) }}
         </div>
       </div>
     </div>
 
-    <div class="row">
-      <div class="col">
-        <a href="#" class="btn btn-light">View All Messages</a>
-      </div>
-    </div>
   </div>
 {% endblock %}
 

@@ -122,4 +122,15 @@ class MessageService
 
         return true;
     }
+
+    /**
+     * Get Messages
+     */
+    public function getMessages()
+    {
+        $rep = $this->em->getRepository(Message::class);
+        $e = $rep->findAll();
+
+        return $e;
+    }
 }
