@@ -1,14 +1,13 @@
 <?php
 namespace App\Controller\Message;
 
+use App\Entity\Message;
+use App\Form\MessageType;
+use App\Service\MessageService;
+
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
-use App\Entity\Message;
-use App\Form\MessageType;
-
-use App\Service\MessageService as MessageService;
 
 /**
  * Controller used to manage the creation of messages
@@ -64,19 +63,6 @@ class MessageController extends Controller
         return $this->render(
             'message/send_message.html.twig',
             array('form' => $form->createView())
-        );
-    }
-
-    /**
-     * View All Messages
-     */
-    public function messages(
-        Request $request,
-        MessageService $messageService
-    ): Response {
-        return $this->render(
-            'message/view_messages.html.twig',
-            array('messages' => $messageService->getMessages())
         );
     }
 }

@@ -13,7 +13,7 @@ message:
 
 messages:
    path: /messages
-   controller: App\Controller\Message\MessageController::messages
+   controller: App\Controller\Message\MessagesController::viewAll
 
 homepage:
     path: /

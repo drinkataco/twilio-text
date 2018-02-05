@@ -125,7 +125,7 @@ class MessageService
     public function getMessages()
     {
         $rep = $this->em->getRepository(Message::class);
-        $e = $rep->findAll();
+        $e = $rep->findBy(array(), array('createdDate' => 'DESC'));;
 
         return $e;
     }
