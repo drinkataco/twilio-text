@@ -272,6 +272,9 @@
     "twig/twig": {
         "version": "v2.4.4"
     },
+    "twilio/sdk": {
+        "version": "5.16.4"
+    },
     "zendframework/zend-code": {
         "version": "3.3.0"
     },

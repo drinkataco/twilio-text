@@ -31,17 +31,14 @@ class MessageController extends Controller
         // Handle to form on POST
         $form->handleRequest($request);
 
+        $message = $form->getData();
+
         if ($form->isSubmitted() && $form->isValid()) {
-            $message = $form->getData();
 
             // If rate limted, don't send or save message
             if ($messageService->rateLimited($this->getUser()->getId())) {
                 // Rate limited, don't send message
                 $this->addFlash('danger', sprintf('Please wait at least %s seconds before sending another message', MessageService::RATE_LIMIT));
-
-                // Retain form data
-                $this->addFlash('form.recepient',   $message->getRecipient());
-                $this->addFlash('form.messageBody', $message->getMessageBody());
             } else {
                 $message = $messageService->addMessage($message, $this->getUser());
 
@@ -51,6 +48,14 @@ class MessageController extends Controller
 
             // Render page with queued message
             return $this->redirectToRoute('message');
+        }
+
+        // Retain form message data
+        if (!is_null($message->getRecipient())) {
+            $this->addFlash('form.recepient', $message->getRecipient());
+        }
+        if (!is_null($message->getMessageBody())) {
+            $this->addFlash('form.messageBody', $message->getMessageBody());
         }
 
         // Otherwise just render page on GET

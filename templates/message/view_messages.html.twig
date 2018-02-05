@@ -41,7 +41,13 @@
                     <span class="badge badge-pill badge-danger">{{ message.status }}</span>
                   {% endif %}
                 </td>
-                <td>{{ message.sentDate }}</td>
+                <td>
+                  {% if message.sentDate is not null %}
+                    <time datetime="{{ message.sentDate|date('c') }}" title="{{ message.sentDate|date('c') }}">
+                      {{ message.sentDate|date('Y-m-d g:ia') }}
+                    </time>
+                  {% endif %}
+                </td>
                 <td><span title="{{ message.user.email }}">{{ message.user.name }}</span></td>
               </tr>
             {% endfor %}

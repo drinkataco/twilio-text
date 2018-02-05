@@ -6,9 +6,6 @@ use App\Entity\User;
 
 use Doctrine\ORM\EntityManagerInterface;
 
-use Predis\Autoloader;
-use Predis\Client as Predis;
-
 use Symfony\Component\DependencyInjection\ContainerInterface as Container;
 use Symfony\Component\Cache\Adapter\AdapterInterface;
 
@@ -112,7 +109,7 @@ class MessageService
     /**
      * Queue Up Message
      *
-     * @param Message $message [description]
+     * @param Message $message The Message to queue
      *
      * @return bool queued or not
      */
@@ -132,5 +129,21 @@ class MessageService
         $e = $rep->findAll();
 
         return $e;
+    }
+
+    /**
+     * Update message after sent
+     */
+    public function updateMessage(
+        Message $message,
+        bool $status
+    ) {
+        $sendStatus = ($status === true) ? Message::SENT_STATUS : Message::FAILURE_STATUS;
+
+        $message->setSentDate(new \DateTime());
+        $message->setStatus($sendStatus);
+
+        $this->em->merge($message);
+        $this->em->flush();
     }
 }

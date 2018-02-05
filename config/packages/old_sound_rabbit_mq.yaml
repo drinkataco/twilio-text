@@ -8,9 +8,10 @@ old_sound_rabbit_mq:
             exchange_options: {name: 'send_message', type: direct}
             service_alias:    my_app_service # no alias by default
             queue_options:   {name: 'send_message'}
-    # consumers:
-    #     upload_picture:
-    #         connection:       default
-    #         exchange_options: {name: 'upload-picture', type: direct}
-    #         queue_options:    {name: 'upload-picture'}
-    #         callback:         upload_picture_service
+    consumers:
+        send_message:
+            connection:       default
+            exchange_options: {name: 'send_message', type: direct}
+            queue_options:    {name: 'send_message'}
+            callback:         App\Service\SendMessageProcess
+            enable_logger:    true
