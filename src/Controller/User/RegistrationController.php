@@ -44,8 +44,11 @@ class RegistrationController extends Controller
             $em->persist($user);
             $em->flush();
 
-            // Redirect to main route page
-            return $this->redirectToRoute('text');
+            // Alert user they can login
+            $this->addFlash('success', 'Success! You can now Login.');
+
+            // Redirect to login
+            return $this->redirectToRoute('login');
         }
 
 

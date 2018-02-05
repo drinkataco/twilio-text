@@ -4,6 +4,8 @@
   {{ form_start(form, { 'attr': {'class': 'signin'} }) }}
     <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
 
+    {{ include('bits/alerts.html.twig', {'session_flashes': app.flashes }) }}
+
     {% if error %}
       <p class="text-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</p>
     {% endif %}
