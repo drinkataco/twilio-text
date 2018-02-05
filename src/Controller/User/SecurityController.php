@@ -1,6 +1,8 @@
 <?php
 namespace App\Controller\User;
 
+use App\Form\LoginType;
+
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -29,9 +31,15 @@ class SecurityController extends Controller
         // last username entered by the user
         $lastUsername = $authUtils->getLastUsername();
 
+        // creare form
+         $form = $this->createForm(LoginType::class, [
+            '_username' => $lastUsername,
+        ]);
+
         return $this->render('user/login.html.twig', array(
             'last_username' => $lastUsername,
-            'error'         => $error,
+            'form' => $form->createView(),
+            'error'         => $error
         ));
     }
 }

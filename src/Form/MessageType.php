@@ -18,8 +18,7 @@ class MessageType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $defaultAttributes = array(
-            'label_attr' => array('class' => 'sr-only'),
-            'attr' => array('class' => 'form-control mb-2')
+            'label_attr' => array('class' => 'sr-only')
         );
 
         $builder->add('recipient', TextType::class, $defaultAttributes)

@@ -12,6 +12,8 @@ security:
                 login_path: login
                 check_path: login
                 default_target_path: text
+                username_parameter: login[_username]
+                password_parameter: login[_password]
             logout:
                 path:   /logout
                 target: /

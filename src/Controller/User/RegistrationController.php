@@ -1,13 +1,13 @@
 <?php
 namespace App\Controller\User;
 
+use App\Entity\User;
+use App\Form\UserType;
+
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-
-use App\Entity\User;
-use App\Form\UserType;
 
 /**
  * Controller used to manage user registration
@@ -48,10 +48,10 @@ class RegistrationController extends Controller
             return $this->redirectToRoute('text');
         }
 
+
         // Otherwise just render page on GET
-        return $this->render(
-            'user/register.html.twig',
-            array('form' => $form->createView())
-        );
+        return $this->render('user/register.html.twig', array(
+            'form' => $form->createView()
+        ));
     }
 }
