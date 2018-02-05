@@ -22,16 +22,16 @@ class MessageType extends AbstractType
             'attr' => array('class' => 'form-control mb-2')
         );
 
-        $builder
-            ->add('recipient', TextType::class, $defaultAttributes)
-            ->add('messageBody',
-                  TextareaType::class,
-                  array_merge($defaultAttributes,
+        $builder->add('recipient', TextType::class, $defaultAttributes)
+            ->add(
+                'messageBody',
+                TextareaType::class,
+                array_merge(
+                    $defaultAttributes,
                     array('attr' => array('class' => 'form-control message-form__message mb-2'))
-                  )
-              );
+                )
+            );
     }
-
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(

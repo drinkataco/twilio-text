@@ -80,8 +80,7 @@ class User implements UserInterface
      */
     public function setCreatedDate($createdDate)
     {
-        if ($this->createdDate === null)
-        {
+        if ($this->createdDate === null) {
             $this->createdDate = $createdDate;
         }
 

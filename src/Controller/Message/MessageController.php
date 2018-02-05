@@ -34,11 +34,13 @@ class MessageController extends Controller
         $message = $form->getData();
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             // If rate limted, don't send or save message
             if ($messageService->rateLimited($this->getUser()->getId())) {
                 // Rate limited, don't send message
-                $this->addFlash('danger', sprintf('Please wait at least %s seconds before sending another message', MessageService::RATE_LIMIT));
+                $this->addFlash('danger', sprintf(
+                    'Please wait at least %s seconds before sending another message',
+                    MessageService::RATE_LIMIT
+                ));
             } else {
                 $message = $messageService->addMessage($message, $this->getUser());
 

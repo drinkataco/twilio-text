@@ -96,7 +96,6 @@ class MessageService
         $timeNow = time();
 
         if (is_null($lastSend) || ($timeNow - $lastSend->get()) > self::RATE_LIMIT) {
-
             $lastSend->set($timeNow);
             $this->cache->save($lastSend);
 

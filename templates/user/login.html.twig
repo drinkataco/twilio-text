@@ -5,7 +5,7 @@
     <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
 
     {% if error %}
-        <p class="text-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</p>
+      <p class="text-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</p>
     {% endif %}
 
     <label for="inputEmail" class="sr-only">Email address</label>
