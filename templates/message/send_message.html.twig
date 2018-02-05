@@ -1,6 +1,9 @@
 {% extends 'boilerplate.html.twig' %}
 
 {% block content %}
+
+  {% set flashes = app.flashes %}
+
   <div class="container">
     <div class="row mb-5">
       <div class="col">
@@ -8,16 +11,18 @@
           {{ form_start(form) }}
             <h1 class="h3 mb-3 font-weight-normal">Send a Text</h1>
 
-            {% for label, flashes in app.session.flashbag.all %}
-              {% for flash in flashes %}
-                  <div class="alert alert-{{ label }}" role="alert">
-                      {{ flash }}
-                  </div>
-              {% endfor %}
-            {% endfor %}
+            {{ include('bits/alerts.html.twig', {'session_flashes': flashes }) }}
 
-            {{ form_row(form.recipient,   { 'attr': { 'placeholder': 'Mobile Number' } }) }}
-            {{ form_row(form.messageBody, { 'attr': { 'placeholder': 'Message' } }) }}
+            {# Set last values for prefill on rate limiting #}
+            {% set recipient_value = '' %}
+            {% if flashes['form.recepient'] is defined %}{% set recipient_value = flashes['form.recepient'][0] %}{% endif %}
+
+            {% set message_value = '' %}
+            {% if flashes['form.recepient'] is defined %}{% set message_value = flashes['form.messageBody'][0] %}{% endif %}
+
+
+            {{ form_row(form.recipient,   { 'attr': { 'placeholder': 'Mobile Number', 'value': recipient_value } }) }}
+            {{ form_row(form.messageBody, { 'attr': { 'placeholder': 'Message' }, 'value': message_value }) }}
 
             <ul class="float-left list-inline text-form__options">
               {% spaceless %}
@@ -32,42 +37,7 @@
 
     <div class="row">
       <div class="col">
-        <div class="messages">
-          <table class="table">
-            <thead>
-              <tr>
-                <th scope="col">ID</th>
-                <th scope="col">Sent Date</th>
-                <th scope="col">Recepient</th>
-                <th scope="col">Message Body</th>
-                <th scope="col">Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-                <td>@mdo</td>
-              </tr>
-              <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-                <td>@fat</td>
-              </tr>
-              <tr>
-                <th scope="row">3</th>
-                <td>Larry</td>
-                <td>the Bird</td>
-                <td>@twitter</td>
-                <td>@twitter</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        <a href="#" class="btn btn-light">View All Messages</a>
       </div>
     </div>
   </div>

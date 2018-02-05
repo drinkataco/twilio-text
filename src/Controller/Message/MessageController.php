@@ -32,17 +32,22 @@ class MessageController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // Get Data
             $message = $form->getData();
 
-            // Add message to redis and return key
-            $key = $messageService->addMessage(
-                $message->getRecipient(),
-                $message->getMessageBody(),
-                $this->getUser()->getUsername()
-            );
+            // If rate limted, don't send or save message
+            if ($messageService->rateLimited($this->getUser()->getId())) {
+                // Rate limited, don't send message
+                $this->addFlash('danger', sprintf('Please wait at least %s seconds before sending another message', MessageService::RATE_LIMIT));
 
-            $this->addFlash('success', 'Text Message Queued!');
+                // Retain form data
+                $this->addFlash('form.recepient',   $message->getRecipient());
+                $this->addFlash('form.messageBody', $message->getMessageBody());
+            } else {
+                $message = $messageService->addMessage($message, $this->getUser());
+
+                $messageService->queueMessage($message);
+                $this->addFlash('success', 'Text Message Queued!');
+            }
 
             // Render page with queued message
             return $this->redirectToRoute('message');

@@ -1,0 +1,11 @@
+{% set alerts = ['primary', 'secondary', 'success', 'danger', 'warning', 'info', 'light', 'dark'] %}
+
+{% for label, flashes in session_flashes %}
+  {% if label in alerts %}
+    {% for flash in flashes %}
+      <div class="alert alert-{{ label }}" role="alert">
+        {{ flash }}
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endfor %}

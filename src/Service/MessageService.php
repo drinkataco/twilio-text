@@ -2,9 +2,15 @@
 namespace App\Service;
 
 use App\Entity\Message;
+use App\Entity\User;
+
+use Doctrine\ORM\EntityManagerInterface;
 
 use Predis\Autoloader;
 use Predis\Client as Predis;
+
+use Symfony\Component\DependencyInjection\ContainerInterface as Container;
+use Symfony\Component\Cache\Adapter\AdapterInterface;
 
 /**
  * Controller used to manage the creation of messages
@@ -13,11 +19,6 @@ use Predis\Client as Predis;
  */
 class MessageService
 {
-    /**
-     * Key for Text Message
-     */
-    const TEXT_KEY = 'text_message';
-
     /**
      * Key for user
      */
@@ -29,152 +30,96 @@ class MessageService
     const RATE_LIMIT = 15;
 
     /**
-     * Constant for pending/queued status
-     */
-    const QUEUE_STATUS = 'pending';
-
-    /**
-     * Constant for sent status
-     */
-    const SENT_STATUS = 'sent';
-
-    /**
-     * Constant for failed status
-     */
-    const FAILURE_STATUS = 'failed';
-
-    /**
-     * Redis Service Client
+     * Internal Cache
      *
      * @var Predis\Client
      */
-    private $redis;
+    private $cache;
 
     /**
-     * Load Redis Service and Client
+     * Rabbit MQ Producer client
+     *
+     * @var OldSound\RabbitMqBundle\RabbitMq\Producer
      */
-    public function __construct()
-    {
-        \Predis\Autoloader::register();
-        $this->redis = new Predis();
+    private $queue;
+
+    /**
+     * Entity manager for doctrine
+     *
+     * @var Doctrine\ORM\EntityManagerInterface
+     */
+    private $em;
+
+    /**
+     * Autowire services
+     *
+     * @param Container              $container Main container - to load rabbit mq service
+     * @param AdapterInterface       $cache     Cache adapter - uses Redis
+     * @param EntityManagerInterface $em        Doctrine entity manager
+     */
+    public function __construct(
+        Container $container,
+        AdapterInterface $cache,
+        EntityManagerInterface $em
+    ) {
+        $this->cache = $cache;
+        $this->queue = $container->get('old_sound_rabbit_mq.send_message_producer');
+        $this->em    = $em;
     }
 
     /**
-     * Add Message to Redis, and queue for sending
+     * Add Message to database, and set default status
      *
-     * @param String $recipient The Recipient (mobile number)
-     * @param String $message   The Message Body
-     * @param String $username  Username of sendee
-     * @param Boolean $send     Whether to send (via queue)
-     *
-     * @return New Message Key
+     * @param Message $message Message Entity
+     * @param User    $user    User Entity
      */
     public function addMessage(
-        string $recipient,
-        string $message,
-        string $username,
-        bool $send = true
-    ): string {
-        // Make Key for text message
-        $messageKey = self::TEXT_KEY . ":{$this->getMessageId()}";
+        Message $message,
+        User $user
+    ): Message {
+        $message->setStatus(Message::QUEUE_STATUS);
+        $message->setUser($user);
 
-        // Ensure queue time is within rate limit
-        $queueTime = $this->calculateQueueTime($username);
-
-        $this->redis->hmset(
-            $messageKey,
-            'recipient',
-            $recipient,
-            'message',
-            $message,
-            'user',
-            $username,
-            'status',
-            self::QUEUE_STATUS,
-            'queueDate',
-            $queueTime,
-            'createdDate',
-            time()
-        );
-
-        return $messageKey;
-    }
-
-    /**
-     * Get Message Identified by Key as entity
-     *
-     * @param  string $key Message Key
-     *
-     * @return App\Entity\Message message entity
-     */
-    public function getMessage(string $key): Message
-    {
-        $result = $this->redis->hgetall($key);
-
-        $message = new Message();
-        // $message.setCreatedDate();
-        // $message.setRecipient();
-        // $message.setMessageBody();
-
-        // $message.setSentDate();
-        // $message.setStatus();
+        $this->em->persist($message);
+        $this->em->flush();
 
         return $message;
     }
 
-    public function getMessages()
-    {
-    }
-
     /**
-     * Add
-     * @param  string $messageId [description]
-     * @return [type]            [description]
-     */
-    public function queueMessage(string $messageId)
-    {
-    }
-
-    /**
-     * Get Message ID value
+     * Identify whether use has hit the rate limit
      *
-     * @return int New ID Value
-     */
-    private function getMessageId(): int
-    {
-        $key = self::TEXT_KEY . ':id';
-
-        $this->redis->incr($key);
-
-        return intval($this->redis->get($key));
-    }
-
-    /**
-     * Calculate queue time to rate limit requests
+     * @param  string $userId current user Id
      *
-     * @param  String $username Current users username
-     *
-     * @return Integer timestamp to queue
+     * @return bool true if rate limited, false if not
      */
-    private function calculateQueueTime(string $username): int
+    public function rateLimited(string $userId): bool
     {
-        $queueTime = time();
-        $userKey = self::USER_KEY . ":$username";
+        $lastSend = $this->cache->getItem(self::USER_KEY . ".$userId");
+        $timeNow = time();
 
-        // If rate limit is not met, just adjust to last que time + ratelimit
-        $lastQueueTime = $this->redis->get($userKey);
+        if (is_null($lastSend) || ($timeNow - $lastSend->get()) > self::RATE_LIMIT) {
 
-        if (!is_null($lastQueueTime)) {
-            $lastQueueTime = intval($lastQueueTime);
+            $lastSend->set($timeNow);
+            $this->cache->save($lastSend);
 
-            if (($queueTime - $lastQueueTime) > self::RATE_LIMIT) {
-                $queueTime = $lastQueueTime + self::RATE_LIMIT;
-            }
+            return false; // is not rate limited
         }
 
-        // Commit to redis
-        $this->redis->set($userKey, $queueTime);
+        return true;
+    }
 
-        return $queueTime;
+    /**
+     * Queue Up Message
+     *
+     * @param Message $message [description]
+     *
+     * @return bool queued or not
+     */
+    public function queueMessage(Message $message): bool
+    {
+        $this->queue->publish(serialize($message));
+
+        return true;
     }
 }

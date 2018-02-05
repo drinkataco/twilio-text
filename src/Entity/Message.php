@@ -14,6 +14,21 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class Message
 {
     /**
+     * Constant for pending/queued status
+     */
+    const QUEUE_STATUS = 'pending';
+
+    /**
+     * Constant for sent status
+     */
+    const SENT_STATUS = 'sent';
+
+    /**
+     * Constant for failed status
+     */
+    const FAILURE_STATUS = 'failed';
+
+    /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
@@ -32,12 +47,12 @@ class Message
     private $recipient;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $sentDate;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="string")
      */
     private $status;
 
@@ -46,6 +61,20 @@ class Message
      * @Assert\Length(min = 2, max=140)
      */
     private $messageBody;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User")
+     * @ORM\JoinColumn
+     */
+    private $user;
+
+    /**
+     * Set default values
+     */
+    public function __construct()
+    {
+        $this->setCreatedDate(new \DateTime());
+    }
 
     /**
      * @return mixed
@@ -142,7 +171,33 @@ class Message
      */
     public function setStatus($status)
     {
+        $enum = array(self::QUEUE_STATUS, self::SENT_STATUS, self::FAILURE_STATUS);
+
+        if (!in_array($status, $enum)) {
+            throw new \InvalidArgumentException('Invalid status');
+        }
+
         $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param mixed $user
+     *
+     * @return self
+     */
+    public function setUser($user)
+    {
+        $this->user = $user;
 
         return $this;
     }
