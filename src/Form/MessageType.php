@@ -2,6 +2,7 @@
 namespace App\Form;
 
 use App\Entity\Message;
+
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -25,10 +26,12 @@ class MessageType extends AbstractType
             ->add(
                 'messageBody',
                 TextareaType::class,
-                array_merge(
-                    $defaultAttributes,
-                    array('attr' => array('class' => 'form-control message-form__message mb-2'))
-                )
+                array_merge($defaultAttributes, array(
+                    'attr' => array(
+                        'class' => 'form-control message-form__message mb-2',
+                        'maxlength' => Message::MESSAGEBODY_MAX
+                    )
+                ))
             );
     }
     public function configureOptions(OptionsResolver $resolver)

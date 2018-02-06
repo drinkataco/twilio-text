@@ -29,6 +29,11 @@ class Message
     const FAILURE_STATUS = 'failed';
 
     /**
+     * Message body max length
+     */
+    const MESSAGEBODY_MAX = 140;
+
+    /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
