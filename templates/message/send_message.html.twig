@@ -29,7 +29,12 @@
 
 
             {{ form_row(form.recipient,   { 'attr': { 'placeholder': 'Mobile Number', 'value': recipient_value } }) }}
-            {{ form_row(form.messageBody, { 'attr': { 'placeholder': 'Message' }, 'value': message_value }) }}
+            {{ form_row(form.messageBody, { 'attr': { 'placeholder': 'Message', 'maxlength': '140', 'data-bind-counter': '.message-form'}, 'value': message_value }) }}
+
+            <p class="float-left message__chars text-muted">
+              <span class="message__chars-count"></span> of
+              <span class="message__chars-max"></span>
+            </p>
 
             <button class="btn btn-primary float-right" type="submit">Send</button>
           {{ form_end(form) }}

@@ -1,0 +1,10 @@
+// VENDOR
+$brand-primary: darken(#428bca, 20%);
+
+@import '~bootstrap/scss/bootstrap';
+
+// APP
+@import 'main';
+@import 'registration';
+@import 'message';
+//

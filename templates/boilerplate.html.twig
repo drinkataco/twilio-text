@@ -7,9 +7,11 @@
 
     <title>{% block page_title %}{% endblock %}</title>
 
-    <!-- Vendor CSS -->
-    <link rel="stylesheet" href="{{ asset('build/vendor.css') }}">
-    <link rel="stylesheet" href="{{ asset('build/app.css') }}">
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ asset('build/styles.css') }}">
+
+    <!-- JS  -->
+    <script type="text/javascript" src="{{ asset('build/app.js') }}"></script>
   </head>
   <body class="{% block body_class %}{% endblock %}">
     {% block content %}{% endblock %}
