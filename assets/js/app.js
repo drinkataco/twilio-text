@@ -1,9 +1,9 @@
-// JS
 import Counter from './counter';
 
-
+/**
+ * Initialise modules
+ */
 const run = () => {
-  // Initialise modules
   Counter.bind('[data-bind-counter]');
 };
 

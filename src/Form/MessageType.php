@@ -29,7 +29,7 @@ class MessageType extends AbstractType
                 array_merge($defaultAttributes, array(
                     'attr' => array(
                         'class' => 'form-control message-form__message mb-2',
-                        'data-bind-counter-max' => Message::MESSAGEBODY_MAX,
+                        'data-counter-max' => Message::MESSAGEBODY_MAX,
                         // Allow more for JS warning. Only defined amount will be allowed though
                         'maxLength' => (Message::MESSAGEBODY_MAX * 1.5)
                     )
