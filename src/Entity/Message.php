@@ -15,21 +15,29 @@ class Message
 {
     /**
      * Constant for pending/queued status
+     *
+     * @var string
      */
     const QUEUE_STATUS = 'pending';
 
     /**
      * Constant for sent status
+     *
+     * @var string
      */
     const SENT_STATUS = 'sent';
 
     /**
      * Constant for failed status
+     *
+     * @var string
      */
     const FAILURE_STATUS = 'failed';
 
     /**
      * Message body max length
+     *
+     * @var int
      */
     const MESSAGEBODY_MAX = 140;
 

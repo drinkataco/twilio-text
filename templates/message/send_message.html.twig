@@ -12,8 +12,8 @@
 
             <div class="mb-4">
               <ul class="float-right list-inline">
-                <li class="list-inline-item"><a href="{{ url('messages') }}" class="btn btn-outline-secondary btn-sm float-right">View All Messages</a></li>
-                <li class="list-inline-item"><a href="{{ url('logout') }}" class="btn btn-sm float-right">Logout</a></li>
+                <li class="list-inline-item"><a href="{{ url('messages') }}" class="btn btn-sm float-right">View All Messages</a></li>
+                <li class="list-inline-item"><a href="{{ url('logout') }}" class="btn text-secondary btn-sm float-right">Logout</a></li>
               </ul>
               <h1 class="h3 mb-3 font-weight-normal">Send a Message</h1>
             </div>
@@ -31,9 +31,9 @@
             {{ form_row(form.recipient,   { 'attr': { 'placeholder': 'Mobile Number', 'value': recipient_value } }) }}
             {{ form_row(form.messageBody, { 'attr': { 'placeholder': 'Message', 'data-bind-counter': '.message-form'}, 'value': message_value }) }}
 
-            <p class="float-left message__chars text-muted">
-              <span class="message__chars-count"></span> of
-              <span class="message__chars-max"></span>
+            <p class="float-left counter text-muted">
+              <span class="counter__chars-count">0</span> of
+              <span class="counter__chars-max"></span>
             </p>
 
             <button class="btn btn-primary float-right" type="submit">Send</button>

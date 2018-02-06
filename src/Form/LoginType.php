@@ -24,12 +24,12 @@ class LoginType extends AbstractType
 
         $builder
             ->add('_username', EmailType::class, $defaultAttributes)
-            ->add('_password', PasswordType::class, $defaultAttributes);
+            ->add('_password', PasswordType::class, $defaultAttributes)
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults( ['intention' => 'authentication'] );
+        $resolver->setDefaults(['intention' => 'authentication']);
     }
 }

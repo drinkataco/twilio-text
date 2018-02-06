@@ -10,3 +10,9 @@
     height: 100px;
   }
 }
+
+.counter {
+  &--danger {
+    color: $danger !important;
+  }
+}
