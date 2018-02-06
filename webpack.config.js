@@ -1,5 +1,5 @@
 // webpack.config.js
-var Encore = require('@symfony/webpack-encore');
+const Encore = require('@symfony/webpack-encore');
 
 Encore
   // the project directory where all compiled assets will be stored
@@ -10,24 +10,21 @@ Encore
 
   .configureFilenames({
     css: 'css/[name]-[contenthash].css',
-    js: 'js/[name]-[chunkhash].js'
+    js: 'js/[name]-[chunkhash].js',
   })
 
   // will create public/build/app.js and public/build/app.css
   .addEntry('app', './assets/js/app.js')
-  .addStyleEntry('styles', './assets/sass/app.scss')
+  .addEntry('styles', './assets/sass/app.scss')
 
   // allow sass/scss files to be processed
-  .enableSassLoader(function(sassOptions) {}, {
-    resolveUrlLoader: false
-  })
+  .enableSassLoader()
 
   // empty the outputPath dir before each build
   .cleanupOutputBeforeBuild()
 
   // show OS notifications when builds finish/fail
-  .enableBuildNotifications()
-;
+  .enableBuildNotifications();
 
 // export the final configuration
 module.exports = Encore.getWebpackConfig();
