@@ -35,14 +35,19 @@ class MessagesController extends Controller
     }
 
     /**
-     * View All Messages
+     * View Table of Messages
+     *
+     * @param  int     $page    Page number
+     * @param  Request $request Page Request
+     *
+     * @return Response
      */
     public function viewAll(
-        Request $request,
-        MessageService $messageService
+        int $page,
+        Request $request
     ): Response {
         $reposity = $this->em->getRepository(Message::class);
-        $messages = $reposity->getMessages();
+        $messages = $reposity->getMessages($page);
 
         // Page Amount
         $totalPages = ceil($reposity->getTotalMessages() / $reposity->getPageSize());
@@ -51,7 +56,7 @@ class MessagesController extends Controller
             'message/view_messages.html.twig',
             array(
                 'messages' => $messages,
-                'page_number' => 1,
+                'page_number' => $page,
                 'total_pages' => $totalPages
             )
         );

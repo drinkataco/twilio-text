@@ -1,19 +1,23 @@
 login:
-   path:       /login
-   controller: App\Controller\User\SecurityController::login
-   methods:    [GET, POST]
+    path:       /login
+    controller: App\Controller\User\SecurityController::login
+    methods:    [GET, POST]
 
 register:
-   path: /register
-   controller: App\Controller\User\RegistrationController::registerAction
+    path: /register
+    controller: App\Controller\User\RegistrationController::registerAction
 
 message:
-   path: /message
-   controller: App\Controller\Message\MessageController::message
+    path: /message
+    controller: App\Controller\Message\MessageController::message
 
 messages:
-   path: /messages
-   controller: App\Controller\Message\MessagesController::viewAll
+    path: /messages/{page}
+    controller: App\Controller\Message\MessagesController::viewAll
+    defaults:
+        page: 1
+    requirements:
+        page: '\d+'
 
 homepage:
     path: /

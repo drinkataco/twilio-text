@@ -7,8 +7,8 @@
 
         <div class="mb-4">
           <ul class="float-right list-inline">
-            <li class="list-inline-item"><a href="{{ url('message') }}" class="btn btn-sm float-right">Send a Message</a></li>
-            <li class="list-inline-item"><a href="{{ url('logout') }}" class="btn text-secondary btn-sm float-right">Logout</a></li>
+            <li class="list-inline-item"><a href="{{ path('message') }}" class="btn btn-sm float-right">Send a Message</a></li>
+            <li class="list-inline-item"><a href="{{ path('logout') }}" class="btn text-secondary btn-sm float-right">Logout</a></li>
           </ul>
           <h1 class="h3 mb-3 font-weight-normal">View Messages</h1>
         </div>
@@ -21,7 +21,7 @@
               <tr>
                 <th scope="col">Id</th>
                 <th scope="col">Recepient</th>
-                <th scope="col">Message</th>
+                <th scope="col" style="max-width:500px">Message</th>
                 <th scope="col">Status</th>
                 <th scope="col">Sent Date</th>
                 <th scope="col">User</th>
@@ -33,7 +33,7 @@
                 <tr>
                   <th scope="row">{{ message.id }}</th>
                   <td>{{ message.recipient }}</td>
-                  <td>{{ message.messageBody }}</td>
+                  <td style="max-width:500px">{{ message.messageBody }}</td>
                   <td>
                     {% if message.status =='pending' %}
                       <span class="badge badge-pill badge-warning">{{ message.status }}</span>
@@ -45,7 +45,7 @@
                   </td>
                   <td>
                     {% if message.sentDate is not null %}
-                      <time datetime="{{ message.sentDate|date('c') }}" title="{{ message.sentDate|date('c') }}">
+                      <time datetime="{{ message.sentDate|date('c') }}" title="{{ message.sentDate|date('c') }}" class="text-muted">
                         {{ message.sentDate|date('Y-m-d g:ia') }}
                       </time>
                     {% endif %}
@@ -59,9 +59,11 @@
 
           {{ include('bits/pagination.html.twig',
             {
-              'nav_title':  'Messages View Navigation',
-              'page_number': page_number,
-              'total_pages': total_pages
+              'nav_title':     'Messages View Navigation',
+              'page_number':   page_number,
+              'total_pages':   total_pages,
+              'route':         'messages',
+              'pages_to_show': 4
             })
           }}
         {% endif %}
