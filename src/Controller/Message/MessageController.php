@@ -37,14 +37,14 @@ class MessageController extends Controller
             if ($messageService->rateLimited($this->getUser()->getId())) {
                 // Rate limited, don't send message
                 $this->addFlash('danger', sprintf(
-                    'Please wait at least %s seconds before sending another message',
+                    'Please wait at least %s seconds before sending another message!',
                     MessageService::RATE_LIMIT
                 ));
             } else {
                 $message = $messageService->addMessage($message, $this->getUser());
 
                 $messageService->queueMessage($message);
-                $this->addFlash('success', 'Text Message Queued!');
+                $this->addFlash('success', 'Message has been successfully added to the queue!');
             }
 
             // Render page with queued message

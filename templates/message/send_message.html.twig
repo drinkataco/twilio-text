@@ -27,7 +27,6 @@
             {% set message_value = '' %}
             {% if flashes['form.recepient'] is defined %}{% set message_value = flashes['form.messageBody'][0] %}{% endif %}
 
-
             {{ form_row(form.recipient,   { 'attr': { 'placeholder': 'Mobile Number', 'value': recipient_value } }) }}
             {{ form_row(form.messageBody, { 'attr': { 'placeholder': 'Message', 'data-bind-counter': '.message-form'}, 'value': message_value }) }}
 

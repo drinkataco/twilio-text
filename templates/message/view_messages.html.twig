@@ -1,7 +1,6 @@
 {% extends 'boilerplate.html.twig' %}
 
 {% block content %}
-
   <div class="container">
     <div class="row">
       <div class="col">
@@ -14,51 +13,62 @@
           <h1 class="h3 mb-3 font-weight-normal">View Messages</h1>
         </div>
 
-        <table class="table">
-          <thead>
-            <tr>
-              <th scope="col">Id</th>
-              <th scope="col">Recepient</th>
-              <th scope="col">Message</th>
-              <th scope="col">Status</th>
-              <th scope="col">Sent Date</th>
-              <th scope="col">User</th>
-            </tr>
-          </thead>
-          <tbody>
-
-            {% for message in messages %}
+        {% if messages is empty %}
+          <h2 class="h4 text-center mt-5">There's nothing to see here</h2>
+        {% else %}
+          <table class="table">
+            <thead>
               <tr>
-                <th scope="row">{{ message.id }}</th>
-                <td>{{ message.recipient }}</td>
-                <td>{{ message.messageBody }}</td>
-                <td>
-                  {% if message.status =='pending' %}
-                    <span class="badge badge-pill badge-warning">{{ message.status }}</span>
-                  {% elseif message.status == 'sent' %}
-                    <span class="badge badge-pill badge-success">{{ message.status }}</span>
-                  {% elseif message.status == 'failed' %}
-                    <span class="badge badge-pill badge-danger">{{ message.status }}</span>
-                  {% endif %}
-                </td>
-                <td>
-                  {% if message.sentDate is not null %}
-                    <time datetime="{{ message.sentDate|date('c') }}" title="{{ message.sentDate|date('c') }}">
-                      {{ message.sentDate|date('Y-m-d g:ia') }}
-                    </time>
-                  {% endif %}
-                </td>
-                <td><span title="{{ message.user.email }}">{{ message.user.name }}</span></td>
+                <th scope="col">Id</th>
+                <th scope="col">Recepient</th>
+                <th scope="col">Message</th>
+                <th scope="col">Status</th>
+                <th scope="col">Sent Date</th>
+                <th scope="col">User</th>
               </tr>
-            {% endfor %}
+            </thead>
+            <tbody>
 
-          </tbody>
-        </table>
+              {% for message in messages %}
+                <tr>
+                  <th scope="row">{{ message.id }}</th>
+                  <td>{{ message.recipient }}</td>
+                  <td>{{ message.messageBody }}</td>
+                  <td>
+                    {% if message.status =='pending' %}
+                      <span class="badge badge-pill badge-warning">{{ message.status }}</span>
+                    {% elseif message.status == 'sent' %}
+                      <span class="badge badge-pill badge-success">{{ message.status }}</span>
+                    {% elseif message.status == 'failed' %}
+                      <span class="badge badge-pill badge-danger">{{ message.status }}</span>
+                    {% endif %}
+                  </td>
+                  <td>
+                    {% if message.sentDate is not null %}
+                      <time datetime="{{ message.sentDate|date('c') }}" title="{{ message.sentDate|date('c') }}">
+                        {{ message.sentDate|date('Y-m-d g:ia') }}
+                      </time>
+                    {% endif %}
+                  </td>
+                  <td><span title="{{ message.user.email }}">{{ message.user.name }}</span></td>
+                </tr>
+              {% endfor %}
+
+            </tbody>
+          </table>
+
+          {{ include('bits/pagination.html.twig',
+            {
+              'nav_title':  'Messages View Navigation',
+              'page_number': page_number,
+              'total_pages': total_pages
+            })
+          }}
+        {% endif %}
 
       </div>
     </div>
   </div>
-
 {% endblock %}
 
 {% block page_title %}View All Messages{% endblock %}

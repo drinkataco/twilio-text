@@ -120,17 +120,6 @@ class MessageService
     }
 
     /**
-     * Get Messages
-     */
-    public function getMessages()
-    {
-        $rep = $this->em->getRepository(Message::class);
-        $e = $rep->findBy(array(), array('createdDate' => 'DESC'));
-
-        return $e;
-    }
-
-    /**
      * Update message after sent
      */
     public function updateMessage(
