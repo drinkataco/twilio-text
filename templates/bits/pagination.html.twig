@@ -11,7 +11,7 @@
  # - pages_to_show INT    how many links to show alongside the current page.
  #                        recomended using an even number. (default 4)
  #}
-{% if total_pages > 1 %}
+{% if total_pages > 1 and page_number <= total_pages%}
   <nav aria-label="{{ nav_title }}">
     <ul class="pagination">
 
@@ -22,30 +22,28 @@
       {% if pages_to_show is not defined %}{% set pages_to_show = 4 %}{% endif %}
       {% set page_weight = (pages_to_show / 2)|round(0, 'floor') %}
 
-      {# first, get amount that we should show before #}
-      {% set pages_before_to_show = page_weight %}
-      {% if pages_before < pages_before_to_show %}
-        {% set pages_before_to_show = pages_before %}
-      {% endif %}
-
-      {# secondly, get amount that we should show after #}
-      {% set pages_after_to_show = page_weight%}
-      {% if pages_after < pages_after_to_show %}
+      {# Set the minimum, or default amount for pages after #}
+      {% if page_number > total_pages - page_weight %}
         {% set pages_after_to_show = pages_after %}
+      {% else %}
+        {% set pages_after_to_show = page_weight %}
       {% endif %}
 
-      {# We might be able to show more pages after #}
-      {% if page_weight - pages_before_to_show > 0 %}
-        {% for i in 1..(page_weight - pages_before_to_show) if (pages_after_to_show + page_number) < total_pages %}
-          {% set pages_after_to_show = pages_after_to_show + 1 %}
-        {% endfor %}
+      {# Set the minimum, or default amount for pages before #}
+      {% if page_number <= page_weight %}
+        {% set pages_before_to_show = pages_before %}
+      {% else %}
+        {% set pages_before_to_show = page_weight %}
       {% endif %}
 
-      {# Or, we might be near the end and could should more pages before #}
-      {% if page_weight - pages_after_to_show > 0 %}
-        {% for i in 1..(page_weight - pages_after_to_show) %}
-          {% set pages_before_to_show = pages_before_to_show + 1 %}
-        {% endfor %}
+      {# Adjust the after value now, if before values exhausted #}
+      {% if pages_before_to_show < page_weight and pages_after > page_weight %}
+        {% set pages_after_to_show = pages_after_to_show + page_weight - pages_before_to_show %}
+      {% endif %}
+
+      {# Adjust the before value now, if after values exhausted #}
+      {% if pages_after_to_show < page_weight and pages_before > page_weight %}
+        {% set pages_before_to_show = pages_before_to_show + page_weight - pages_after_to_show %}
       {% endif %}
 
       <!-- Previous -->
@@ -58,7 +56,7 @@
 
       <!-- Show some before -->
       {% if page_number > 1 %}
-        {% for i in pages_before_to_show..1 if page_number - i > 0 %}
+        {% for i in pages_before_to_show..1 %}
           {% set number = page_number - i %}
           <li class="page-item"><a class="page-link" href="{{ path(route, {'page': number}) }}">{{ number }}</a></li>
         {% endfor %}

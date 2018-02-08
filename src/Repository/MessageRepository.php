@@ -15,7 +15,7 @@ class MessageRepository extends ServiceEntityRepository
      *
      * @var int
      */
-    const PAGE_SIZE_DEFAULT = 100;
+    const PAGE_SIZE_DEFAULT = 25;
 
     /**
      * Selected Page Sise
