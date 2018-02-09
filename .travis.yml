@@ -8,10 +8,7 @@ services:
   - redis-server
 
 env:
-  - APP_ENV=dev
-  - APP_SECRET=d860000f991abc5ff93d2f788620e5d0
-  - DATABASE_URL=mysql://twilio_proj:apassword@127.0.0.1:3306/twilio_proj
-  - RABBITMQ_URL=amqp://guest:guest@localhost:5672
+  - APP_ENV=dev APP_SECRET=d860000f991abc5ff93d2f788620e5d0 DATABASE_URL=mysql://twilio_proj:apassword@127.0.0.1:3306/twilio_proj RABBITMQ_URL=amqp://guest:guest@localhost:5672
 
 before_install:
   - mysql -e 'CREATE DATABASE IF NOT EXISTS twilio_proj;'
