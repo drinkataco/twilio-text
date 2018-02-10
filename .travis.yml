@@ -13,9 +13,12 @@ env:
 before_install:
   - mysql -e 'CREATE DATABASE IF NOT EXISTS twilio_proj;'
   - mysql -e 'GRANT ALL PRIVILEGES ON twilio_proj.* TO "twilio_proj"@"localhost" IDENTIFIED BY "apassword"'
-
-after_install:
+  - composer self-update
+  - composer update
   - composer install
+
+# after_install:
+#   - composer install
 
 script:
   - ./bin/phpunit
