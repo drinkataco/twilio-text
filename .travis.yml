@@ -18,4 +18,4 @@ after_install:
   - composer install
 
 script:
-  - ./vendor/bin/phpunit
+  - ./bin/phpunit
